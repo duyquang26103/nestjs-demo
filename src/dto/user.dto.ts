@@ -1,7 +1,7 @@
 import { IsString, IsEmail, IsDate, IsOptional } from "class-validator";
 import { BaseDto, Default } from "../common/base.dto";
 import { CourseEntity } from "../entities/course.entity";
-import { Transform, Expose } from 'class-transformer';
+import { Expose, Type } from "class-transformer";
 import { EnrollmentEntity } from "../entities/enrollment.entity";
 
 export class CreateUserDto extends BaseDto{
@@ -25,10 +25,12 @@ export class CreateUserDto extends BaseDto{
   @IsDate()
   registrationDate: Date;
 
-  @Transform(({ value }) => parseInt(value))
+  @IsOptional()
+  @Type(() => CourseEntity)
   instructorOf: CourseEntity[]
 
-  @Transform(({ value }) => parseInt(value))
+  @IsOptional()
+  @Type(() => EnrollmentEntity)
   enrollments: EnrollmentEntity[]
 }
 
