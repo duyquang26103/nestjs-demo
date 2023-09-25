@@ -34,7 +34,4 @@ export class CategoryService extends BaseService<CategoryEntity> {
     }
     return categoryValidatedList;
   }
-
-
-
 }

@@ -21,8 +21,8 @@ export class UserController {
     } catch (error) {
       return new ResponseData<UserDto[]>(
         null,
-        HttpStatus.ERROR,
-        HttpMessage.ERROR,
+        HttpStatus.CLIENT_NOT_FOUND,
+        HttpMessage.SERVER_ERROR,
       );
     }
   }
@@ -39,8 +39,8 @@ export class UserController {
     } catch (error) {
       return new ResponseData<UserDto>(
         null,
-        HttpStatus.ERROR,
-        HttpMessage.ERROR,
+        HttpStatus.CLIENT_NOT_FOUND,
+        HttpMessage.NOT_FOUND,
       );
     }
   }
@@ -56,8 +56,8 @@ export class UserController {
     } catch (error) {
       return new ResponseData<UserDto>(
         null,
-        HttpStatus.ERROR,
-        HttpMessage.ERROR,
+        HttpStatus.CLIENT_NOT_FOUND,
+        HttpMessage.NOT_FOUND,
       );
     }
   }
@@ -81,8 +81,8 @@ export class UserController {
     } catch (error) {
       return new ResponseData<string>(
         null,
-        HttpStatus.ERROR,
-        HttpMessage.ERROR,
+        HttpStatus.CLIENT_NOT_FOUND,
+        HttpMessage.NOT_FOUND,
       );
     }
   }
@@ -98,8 +98,8 @@ export class UserController {
     } catch (error) {
       return new ResponseData<string>(
         null,
-        HttpStatus.ERROR,
-        HttpMessage.ERROR,
+        HttpStatus.CLIENT_NOT_FOUND,
+        HttpMessage.NOT_FOUND,
       );
     }
   }

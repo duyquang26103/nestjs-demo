@@ -8,10 +8,12 @@ import { ModuleDto } from './module.dto';
 import { QuizDto } from './quiz.dto';
 import { BaseDto } from "../common/base.dto";
 
-export class CourseDto extends BaseDto{
+export class CourseDto extends BaseDto {
+  @Expose()
   @IsString()
   courseName: string;
 
+  @Expose()
   @IsString()
   description: string;
 
@@ -58,7 +60,6 @@ export class CreateCourseDto extends BaseDto {
 
   @ValidateNested()
   @Type(() => CategoryDto)
-  @IsArray()
   category: CategoryDto;
 
   @IsOptional()

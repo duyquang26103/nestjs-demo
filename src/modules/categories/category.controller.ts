@@ -10,7 +10,6 @@ export class CategoryController {
 
   @Post()
   async createCategory(@Body() categoryDto: CategoryDto, @Req() req: Request): Promise<ResponseData<CategoryDto>> {
-    console.log(categoryDto)
     try {
       return new ResponseData<CategoryDto>(
         await this.categoryService.createCategory(categoryDto),
@@ -20,8 +19,8 @@ export class CategoryController {
     } catch (error) {
       return new ResponseData<CategoryDto>(
         null,
-        HttpStatus.ERROR,
-        HttpMessage.ERROR,
+        HttpStatus.CLIENT_NOT_FOUND,
+        HttpMessage.NOT_FOUND,
       );
     }
   }
@@ -37,8 +36,8 @@ export class CategoryController {
     } catch (error) {
       return new ResponseData<CategoryDto[]>(
         null,
-        HttpStatus.ERROR,
-        HttpMessage.ERROR,
+        HttpStatus.CLIENT_NOT_FOUND,
+        HttpMessage.SERVER_ERROR,
       );
     }
   }
@@ -55,8 +54,8 @@ export class CategoryController {
     } catch (error) {
       return new ResponseData<CategoryDto>(
         null,
-        HttpStatus.ERROR,
-        HttpMessage.ERROR,
+        HttpStatus.CLIENT_NOT_FOUND,
+        HttpMessage.SERVER_ERROR,
       );
     }
   }
@@ -72,8 +71,8 @@ export class CategoryController {
     } catch (error) {
       return new ResponseData<CategoryDto>(
         null,
-        HttpStatus.ERROR,
-        HttpMessage.ERROR,
+        HttpStatus.CLIENT_NOT_FOUND,
+        HttpMessage.SERVER_ERROR,
       );
     }
   }
@@ -89,8 +88,8 @@ export class CategoryController {
     } catch (error) {
       return new ResponseData<string>(
         null,
-        HttpStatus.ERROR,
-        HttpMessage.ERROR,
+        HttpStatus.CLIENT_NOT_FOUND,
+        HttpMessage.SERVER_ERROR,
       );
     }
   }
