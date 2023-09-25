@@ -29,7 +29,7 @@ export class UserController {
 
   @Get('/:id')
   async getUserDetails(@Param('id') id: string): Promise<ResponseData<UserDto>> {
-    const result =  await this.userService.get(id)
+    const result =  await this.userService.getById(id)
     try {
       return new ResponseData<UserDto>(
        UserDto.plainToInstance(result),

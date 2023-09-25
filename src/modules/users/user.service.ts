@@ -15,8 +15,8 @@ export class UserService extends BaseService<UserEntity> {
   }
 
   async createUser(entity: UserEntity): Promise<UserDto> {
-    if (!entity.registrationDate) {
-      const newUser = { ...entity, registrationDate: new Date() };
+    if (!entity.createdAt) {
+      const newUser = { ...entity, createdAt: new Date() };
       return UserDto.plainToInstance(await super.create(newUser));
     }
 

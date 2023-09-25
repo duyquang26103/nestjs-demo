@@ -1,4 +1,4 @@
-import { Entity, Column, ManyToOne, OneToMany, ManyToMany } from 'typeorm';
+import { Entity, Column, ManyToOne, OneToMany } from 'typeorm';
 import { UserEntity } from './user.entity';
 import { EnrollmentEntity } from './enrollment.entity';
 import { ModuleEntity } from './module.entity';
@@ -17,11 +17,8 @@ export class CourseEntity extends BaseEntity{
   @ManyToOne(() => UserEntity, (user) => user.instructorOf)
   instructorId: UserEntity;
 
-  @Column({ type: 'date' })
-  creationDate: Date;
-
-  @ManyToMany(() => CategoryEntity, (category) => category.courses)
-  categories: CategoryEntity[];
+  @ManyToOne(() => CategoryEntity, (category) => category.courses)
+  category: CategoryEntity;
 
   @OneToMany(() => EnrollmentEntity, (enrollment) => enrollment.course)
   enrollments: EnrollmentEntity[];

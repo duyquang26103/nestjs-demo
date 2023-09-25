@@ -1,5 +1,5 @@
 // course.dto.ts
-import { IsString, IsDate, IsArray, ValidateNested, IsOptional } from "class-validator";
+import { IsString, IsArray, ValidateNested, IsOptional } from "class-validator";
 import { Expose, Type } from 'class-transformer'; // Import the Expose decorator
 import { UserDto } from './user.dto';
 import { CategoryDto } from './category.dto';
@@ -20,14 +20,10 @@ export class CourseDto extends BaseDto{
   @Type(() => UserDto)
   instructorId: UserDto;
 
-  @IsDate()
-  creationDate: Date;
-
   @Expose() // Expose this property
   @ValidateNested()
   @Type(() => CategoryDto)
-  @IsArray()
-  categories: CategoryDto[];
+  category: CategoryDto;
 
   @Expose() // Expose this property
   @ValidateNested()
@@ -48,7 +44,7 @@ export class CourseDto extends BaseDto{
   quizzes: QuizDto[];
 }
 
-export class CreateCourseDto extends BaseDto{
+export class CreateCourseDto extends BaseDto {
   @IsString()
   courseName: string;
 
@@ -60,13 +56,10 @@ export class CreateCourseDto extends BaseDto{
   @Type(() => UserDto)
   instructorId: UserDto;
 
-  @IsDate()
-  creationDate: Date;
-
   @ValidateNested()
   @Type(() => CategoryDto)
   @IsArray()
-  categories: CategoryDto[];
+  category: CategoryDto;
 
   @IsOptional()
   @ValidateNested()

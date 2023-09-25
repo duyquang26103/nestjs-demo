@@ -1,9 +1,14 @@
 import { IsString, IsNumber } from 'class-validator';
-import { Expose } from 'class-transformer';
+import { Expose, Type } from "class-transformer";
+import { CourseEntity } from "../entities/course.entity";
 
 export class QuizDto {
   @Expose() // Expose this property
   id: number;
+
+  @Expose()
+  @Type(() => CourseEntity)
+  course: CourseEntity
 
   @Expose() // Expose this property
   @IsString()

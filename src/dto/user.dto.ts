@@ -1,5 +1,5 @@
-import { IsString, IsEmail, IsDate, IsOptional } from "class-validator";
-import { BaseDto, Default } from "../common/base.dto";
+import { IsString, IsEmail, IsOptional } from "class-validator";
+import { BaseDto } from "../common/base.dto";
 import { CourseEntity } from "../entities/course.entity";
 import { Expose, Type } from "class-transformer";
 import { EnrollmentEntity } from "../entities/enrollment.entity";
@@ -19,11 +19,6 @@ export class CreateUserDto extends BaseDto{
 
   @IsString()
   password: string;
-
-  @IsOptional()
-  @Default(new Date())
-  @IsDate()
-  registrationDate: Date;
 
   @IsOptional()
   @Type(() => CourseEntity)
@@ -51,12 +46,15 @@ export class UserDto extends BaseDto{
   @IsString()
   userName: string;
 
-  @Expose()
-  @IsDate()
-  registrationDate: Date;
+  @IsString()
+  password: string;
 
   @Expose()
   instructorOf: CourseEntity[]
+
+  @IsOptional()
+  @Type(() => EnrollmentEntity)
+  enrollments: EnrollmentEntity[]
 }
 
 export class UpdateUserDto extends BaseDto{
@@ -82,11 +80,6 @@ export class UpdateUserDto extends BaseDto{
   @IsOptional()
   @IsString()
   password: string;
-
-  @IsOptional()
-  @Expose()
-  @IsDate()
-  registrationDate: Date;
 
   @IsOptional()
   @Expose()

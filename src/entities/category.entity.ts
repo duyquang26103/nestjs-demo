@@ -1,4 +1,4 @@
-import { Entity, Column, ManyToMany, JoinTable } from 'typeorm';
+import { Entity, Column, OneToMany } from 'typeorm';
 import { CourseEntity } from './course.entity';
 import { BaseEntity } from "../common/mysql/base.entity";
 
@@ -7,7 +7,6 @@ export class CategoryEntity extends BaseEntity{
   @Column()
   categoryName: string;
 
-  @ManyToMany(() => CourseEntity, (course) => course.categories)
-  @JoinTable()
+  @OneToMany(() => CourseEntity, (course) => course.category)
   courses: CourseEntity[];
 }

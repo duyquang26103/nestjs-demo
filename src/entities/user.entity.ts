@@ -20,9 +20,6 @@ export class UserEntity extends BaseEntity{
   @Column()
   password: string;
 
-  @Column({ type: 'date' })
-  registrationDate: Date;
-
   // Specify the instructorOf relationship
   @OneToMany(() => CourseEntity, (course) => course.instructorId)
   instructorOf: CourseEntity[];

@@ -28,7 +28,7 @@ export class BaseService<T extends BaseEntity> implements IBaseService<T> {
     }
   }
 
-  async get(id: string): Promise<T> {
+  async getById(id: string): Promise<T> {
     try {
       return this.genericRepository.findOneBy({ id : id as any})
     } catch (error) {
@@ -46,7 +46,7 @@ export class BaseService<T extends BaseEntity> implements IBaseService<T> {
   }
 
   async update(id: string, entity: any): Promise<any>{
-    const found = await this.get(id);
+    const found = await this.getById(id);
     const newEntity = {...found, ...entity}
     try {
         await this.genericRepository.update({ id: id as any }, { ...newEntity });

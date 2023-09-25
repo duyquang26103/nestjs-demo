@@ -19,15 +19,22 @@ export class CategoryService extends BaseService<CategoryEntity> {
     return CategoryDto.plainToInstance(newCategory);
   }
 
+  async findCategoryByName(categoryName: string): Promise<CategoryDto> {
+    return this.categoryRepository.findOne({where: {
+      categoryName
+      }});
+  }
+
   async getAllCategories(): Promise<CategoryDto[]> {
     let categoryValidatedList: CategoryDto[] = [];
     const categories = await super.getAll();
-    console.log(categories);
     for (const category of categories) {
       const validate = CategoryDto.plainToInstance(category);
       categoryValidatedList.push(validate);
     }
     return categoryValidatedList;
   }
+
+
 
 }

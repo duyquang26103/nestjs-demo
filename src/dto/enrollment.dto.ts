@@ -1,5 +1,7 @@
 import { IsDate } from 'class-validator';
-import { Expose } from 'class-transformer'; // Import the Expose decorator
+import { Expose, Type } from "class-transformer";
+import { UserEntity } from "../entities/user.entity";
+import { CourseEntity } from "../entities/course.entity"; // Import the Expose decorator
 
 export class EnrollmentDto {
   @Expose() // Expose this property
@@ -9,5 +11,11 @@ export class EnrollmentDto {
   @IsDate()
   enrollmentDate: Date;
 
-  // You can choose to expose or hide other properties as needed
+  @Expose()
+  @Type(() => UserEntity)
+  user: UserEntity;
+
+  @Expose()
+  @Type(() => CourseEntity)
+  course: CourseEntity;
 }

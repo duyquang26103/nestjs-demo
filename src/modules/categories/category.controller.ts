@@ -45,7 +45,7 @@ export class CategoryController {
 
   @Get(':id')
   async getCategoryById(@Param('id') id: string): Promise<ResponseData<CategoryDto>> {
-    const course = await this.categoryService.get(id);
+    const course = await this.categoryService.getById(id);
     try {
       return new ResponseData<CategoryDto>(
         CategoryDto.plainToInstance(course),

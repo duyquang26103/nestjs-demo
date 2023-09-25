@@ -1,15 +1,23 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
 import { CourseService } from './course.service';
 import { CourseDto, CreateCourseDto } from "../../dto/course.dto";
 import { CourseEntity } from '../../entities/course.entity';
+import { CategoryService } from "../categories/category.service";
 
-@Controller('courses')
+@Controller('category/:name/course')
 export class CourseController {
-  constructor(private readonly courseService: CourseService) {}
+  constructor(
+    private readonly categoryService: CategoryService,
+    private readonly courseService: CourseService
+  ) {}
 
   @Post()
-  async createCourse(@Body() course: CreateCourseDto): Promise<CourseDto> {
-    return await this.courseService.createCourse(course);
+  async createCourse(@Param('name') categoryName: string, @Body() course: CreateCourseDto): Promise<CourseDto> {
+    console.log('categoryName', categoryName)
+
+    const category = await this.categoryService.findCategoryByName(categoryName);
+    console.log('hihihihihih', category)
+    return await this.courseService.createCourse(category, course);
   }
 
   @Get()
@@ -18,13 +26,14 @@ export class CourseController {
   }
 
   @Get(':id')
-  async getCourseById(@Param('id') id: string): Promise<CourseDto> {
-    const course = await this.courseService.get(id);
-    if (!course) {
-      throw new NotFoundException(`Course with ID ${id} not found`);
-    }
+  async getCourseById(@Param('name') categoryName: string, @Param('id') id: string): Promise<CourseDto> {
+    const category = await this.categoryService.findCategoryByName(categoryName)
+    const course = await this.courseService.getCourseByCategory(category, id);
+    console.log(course);
     return CourseDto.plainToInstance(course);
   }
+
+
 
   @Put(':id')
   async updateCourse(@Param('id') id: string, @Body() courseDto: CourseDto): Promise<CourseDto> {
