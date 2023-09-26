@@ -5,13 +5,15 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CourseDto, CreateCourseDto } from '../../dto/course.dto';
 import { CategoryDto } from '../../dto/category.dto';
-import { v4 as uuidv4 } from 'uuid';
+import { CategoryEntity } from "../../entities/category.entity";
 
 @Injectable()
 export class CourseService extends BaseService<CourseEntity> {
   constructor(
     @InjectRepository(CourseEntity)
     private readonly courseRepository: Repository<CourseEntity>,
+    @InjectRepository(CategoryEntity)
+    private readonly categoryRepository: Repository<CategoryEntity>,
   ) {
     super(courseRepository);
   }
@@ -27,13 +29,10 @@ export class CourseService extends BaseService<CourseEntity> {
     const newCourseDto = new CreateCourseDto();
     newCourseDto.category = category;
 
-    if (!entity.id) {
-      newCourse = { ...newCourseDto, ...entity, id: uuidv4() };
-    }
-
     newCourse = { ...newCourseDto, ...entity };
     const createdCourse = await super.create(newCourse);
-    console.log('createdCourse', createdCourse)
+    await this.categoryRepository.save(category);
+
     return CourseDto.plainToInstance(createdCourse);
   }
 
@@ -50,6 +49,8 @@ export class CourseService extends BaseService<CourseEntity> {
   }
 
   async getCourses() {
-    return super.getAll();
+    return this.courseRepository.find({
+      relations: { category: true},
+    });
   }
 }

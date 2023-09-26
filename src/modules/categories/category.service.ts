@@ -27,7 +27,11 @@ export class CategoryService extends BaseService<CategoryEntity> {
 
   async getAllCategories(): Promise<CategoryDto[]> {
     let categoryValidatedList: CategoryDto[] = [];
-    const categories = await super.getAll();
+    const categories = await this.categoryRepository.find({
+      relations: {
+        courses: true
+      }
+    });
     for (const category of categories) {
       const validate = CategoryDto.plainToInstance(category);
       categoryValidatedList.push(validate);
