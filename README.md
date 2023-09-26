@@ -32,6 +32,12 @@
 $ npm install
 ```
 
+## Store database in local
+
+- Option 1: Create empty dir follow Path: `nest-demo/data/mysql`
+- Option 2: Override at docker-compose.yml
+  - Change at:  `volumes: ./your/local/dir:/var/lib/mysql`
+
 ## Run docker to initialize mysql
 
 ```bash
