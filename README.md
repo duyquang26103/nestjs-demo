@@ -32,6 +32,12 @@
 $ npm install
 ```
 
+## Run docker to initialize mysql
+
+```bash
+$ docker-compose up
+```
+
 ## Running the app
 
 ```bash
