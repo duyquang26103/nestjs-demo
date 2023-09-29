@@ -16,6 +16,17 @@ export abstract class BaseDto {
       excludeExtraneousValues: true,
     });
   }
+
+  static plainToInstanceArray<T>(this: new (...args: any[]) => T, arr: T[]): T[] {
+    let validatedList: T[] = [];
+    for (const ele of arr) {
+      const dataIsValidated = plainToInstance(this, ele, {
+        excludeExtraneousValues: true,
+      });
+      validatedList.push(dataIsValidated);
+    }
+    return validatedList;
+  }
 }
 
 export function  Default(defaultValue: any) {

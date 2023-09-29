@@ -1,12 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, Column } from 'typeorm';
+import { Entity, ManyToOne, Column } from 'typeorm';
 import { UserEntity } from './user.entity';
 import { CourseEntity } from './course.entity';
+import { BaseEntity } from "../common/mysql/base.entity";
 
 @Entity()
-export class EnrollmentEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class EnrollmentEntity extends BaseEntity{
   @ManyToOne(() => UserEntity, (user) => user.enrollments)
   user: UserEntity;
 

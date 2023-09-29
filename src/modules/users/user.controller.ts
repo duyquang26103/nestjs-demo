@@ -62,11 +62,6 @@ export class UserController {
     }
   }
 
-  // @Post(':id/enroll/:courseId')
-  // async enrollUserInCourse(@Param('id') id: string, @Param('courseId') courseId: string) {
-  //   return this.userService.enrollUserInCourse(id, courseId);
-  // }
-
   @Put('/:id')
   async updateUserDetails(
     @Param('id') id: string,

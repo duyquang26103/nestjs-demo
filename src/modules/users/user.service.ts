@@ -32,12 +32,4 @@ export class UserService extends BaseService<UserEntity> {
     }
     return userValidatedList;
   }
-
-  // async enrollUserInCourse(id: string, courseId: string ) {
-  //   const user = await super.get(id);
-  //   const course = await this.get(courseId);
-  //
-  //   user.enrollments.push(courseId);
-  //   await this.userRepository.save(user);
-  // }
 }

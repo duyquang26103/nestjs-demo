@@ -81,6 +81,49 @@ export class CreateCourseDto extends BaseDto {
   @Type(() => QuizDto)
   @IsArray()
   quizzes: QuizDto[];
+}
 
-  // You can exclude 'enrollments', 'modules', and 'quizzes' properties
+export class editCourseDto extends BaseDto {
+  @IsOptional()
+  @Expose()
+  @IsString()
+  courseName: string;
+
+  @IsOptional()
+  @Expose()
+  @IsString()
+  description: string;
+
+  @IsOptional()
+  @Expose() // Expose this property
+  @ValidateNested()
+  @Type(() => UserDto)
+  instructorId: UserDto;
+
+  @IsOptional()
+  @Expose() // Expose this property
+  @ValidateNested()
+  @Type(() => CategoryDto)
+  category: CategoryDto;
+
+  @IsOptional()
+  @Expose() // Expose this property
+  @ValidateNested()
+  @Type(() => EnrollmentDto)
+  @IsArray()
+  enrollments: EnrollmentDto[];
+
+  @IsOptional()
+  @Expose() // Expose this property
+  @ValidateNested()
+  @Type(() => ModuleDto)
+  @IsArray()
+  modules: ModuleDto[];
+
+  @IsOptional()
+  @Expose() // Expose this property
+  @ValidateNested()
+  @Type(() => QuizDto)
+  @IsArray()
+  quizzes: QuizDto[];
 }

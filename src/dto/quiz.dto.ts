@@ -1,11 +1,9 @@
 import { IsString, IsNumber } from 'class-validator';
 import { Expose, Type } from "class-transformer";
 import { CourseEntity } from "../entities/course.entity";
+import { BaseDto } from "../common/base.dto";
 
-export class QuizDto {
-  @Expose() // Expose this property
-  id: number;
-
+export class QuizDto extends BaseDto{
   @Expose()
   @Type(() => CourseEntity)
   course: CourseEntity
@@ -21,6 +19,4 @@ export class QuizDto {
   @Expose() // Expose this property
   @IsNumber()
   passingScore: number;
-
-  // You can choose to expose or hide other properties as needed
 }

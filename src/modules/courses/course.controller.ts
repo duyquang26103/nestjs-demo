@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
 import { CourseService } from './course.service';
-import { CourseDto, CreateCourseDto } from "../../dto/course.dto";
+import { CourseDto, CreateCourseDto, editCourseDto } from "../../dto/course.dto";
 import { CategoryService } from "../categories/category.service";
 import { ResponseData } from "../../global/globalClass";
 import { HttpMessage, HttpStatus } from "../../global/globalEnum";
@@ -13,23 +13,31 @@ export class CourseController {
   ) {}
 
   @Post()
-  async createCourse(@Param('name') categoryName: string, @Body() course: CreateCourseDto): Promise<CourseDto> {
+  async createCourse(@Param('name') categoryName: string, @Body() course: CreateCourseDto): Promise<ResponseData<CourseDto>> {
     const category = await this.categoryService.findCategoryByName(categoryName);
-    return await this.courseService.createCourse(category, course);
+    const newCourse = await this.courseService.createCourse(category, course)
+    return new ResponseData<CourseDto>(
+      newCourse,
+      HttpStatus.SUCCESS,
+      HttpMessage.SUCCESS
+    );
   }
 
   @Get(':id')
-  async getSpecificCourse(@Param('name') categoryName: string, @Param('id') id: string): Promise<CourseDto> {
+  async getSpecificCourse(@Param('name') categoryName: string, @Param('id') id: string): Promise<ResponseData<CourseDto>> {
     const category = await this.categoryService.findCategoryByName(categoryName);
-    console.log('category',category)
-    const course = await this.courseService.getCourseByCategory(category, id);
-    console.log('course', course)
-    return CourseDto.plainToInstance(course);
+    const course = await this.courseService.getCourseByCategory(category, id)
+    return new ResponseData<CourseDto>(
+      course,
+      HttpStatus.SUCCESS,
+      HttpMessage.SUCCESS
+    );
   }
 
   @Get()
   async getAllCoursesByCategory(@Param('name') categoryName: string): Promise<ResponseData<CourseDto[]>> {
     const category = await this.categoryService.findCategoryByName(categoryName);
+
     if (!category) {
       return new ResponseData<CourseDto[]>(
         null,
@@ -37,7 +45,9 @@ export class CourseController {
         HttpMessage.NOT_FOUND
       )
     }
+
     const courses = await this.courseService.getCoursesByCategory(category);
+
     if (!courses) {
       return new ResponseData<CourseDto[]>(
         null,
@@ -46,25 +56,38 @@ export class CourseController {
       )
     }
 
-    let validateCourse = [];
-    for (const courseEntity of courses) {
-      validateCourse.push(CourseDto.plainToInstance(courseEntity));
+    try {
+      return new ResponseData<CourseDto[]>(
+        courses,
+        HttpStatus.SUCCESS,
+        HttpMessage.SUCCESS
+      );
+    } catch (e) {
+      return new ResponseData<CourseDto[]>(
+        null,
+        HttpStatus.SERVER_ERROR,
+        HttpMessage.SERVER_ERROR
+      )
     }
-    return new ResponseData<CourseDto[]>(
-      validateCourse,
+  }
+
+  @Put(':id')
+  async updateCourse(@Param('id') id: string, @Body() courseDto: editCourseDto): Promise<ResponseData<string>> {
+    const status = await this.courseService.update(id, courseDto);
+    return new ResponseData<string>(
+      status,
       HttpStatus.SUCCESS,
       HttpMessage.SUCCESS
     );
   }
 
-
-  @Put(':id')
-  async updateCourse(@Param('id') id: string, @Body() courseDto: CourseDto): Promise<CourseDto> {
-    return this.courseService.update(id, courseDto);
-  }
-
   @Delete(':id')
-  async deleteCourse(@Param('id') id: string): Promise<string> {
-    return this.courseService.delete(id);
+  async deleteCourse(@Param('id') id: string): Promise<ResponseData<string>> {
+    const status = await this.courseService.delete(id);
+    return new ResponseData<string>(
+      status,
+      HttpStatus.SUCCESS,
+      HttpMessage.SUCCESS
+    );
   }
 }

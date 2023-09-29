@@ -10,4 +10,4 @@ services:
       MYSQL_USER: quang
       MYSQL_PASSWORD: quang
     volumes:
-      - ./data/mysql:/var/lib/mysql
+      - ./db/mysql:/var/lib/mysql

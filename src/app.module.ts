@@ -4,13 +4,13 @@ import { AppService } from './app.service';
 import { CourseModule } from './modules/courses/course.module';
 import { UsersModule } from './modules/users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CategoryModule } from "./modules/categories/category.module";
 import { UserEntity } from './entities/user.entity';
 import { CourseEntity } from './entities/course.entity';
 import { EnrollmentEntity } from './entities/enrollment.entity';
 import { CategoryEntity } from './entities/category.entity';
 import { ModuleEntity } from './entities/module.entity';
 import { QuizEntity } from './entities/quiz.entity';
-import { CategoryModule } from "./modules/categories/category.module";
 
 @Module({
   imports: [

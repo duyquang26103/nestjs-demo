@@ -1,26 +1,22 @@
 import { IsString, IsNumber } from 'class-validator';
 import { Expose, Type } from "class-transformer";
-import { CourseEntity } from "../entities/course.entity"; // Import the Expose decorator
+import { CourseEntity } from "../entities/course.entity";
+import { BaseDto } from "../common/base.dto"; // Import the Expose decorator
 
-export class ModuleDto {
-  @Expose() // Expose this property
-  id: number;
-
+export class ModuleDto extends BaseDto{
   @Expose()
   @Type(() => CourseEntity)
   course: CourseEntity
 
-  @Expose() // Expose this property
+  @Expose()
   @IsString()
   moduleName: string;
 
-  @Expose() // Expose this property
+  @Expose()
   @IsString()
   content: string;
 
-  @Expose() // Expose this property
+  @Expose()
   @IsNumber()
   sequenceNumber: number;
-
-  // You can choose to expose or hide other properties as needed
 }

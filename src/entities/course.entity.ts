@@ -8,7 +8,9 @@ import { BaseEntity } from "../common/mysql/base.entity";
 
 @Entity()
 export class CourseEntity extends BaseEntity{
-  @Column()
+  @Column({
+    name: 'course_name'
+  })
   courseName: string;
 
   @Column('text')

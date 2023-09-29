@@ -18,7 +18,7 @@ export class CourseService extends BaseService<CourseEntity> {
     super(courseRepository);
   }
 
-  async createCourse(
+  async createCourse (
     category: CategoryDto,
     entity: CourseEntity,
   ): Promise<CourseDto> {
@@ -36,21 +36,26 @@ export class CourseService extends BaseService<CourseEntity> {
     return CourseDto.plainToInstance(createdCourse);
   }
 
-  async getCourseByCategory(category: CategoryDto, courseId: string) {
-    return this.courseRepository.findOne({
+  async getCourseByCategory(category: CategoryDto, courseId: string): Promise<CourseDto> {
+    const course = await this.courseRepository.findOne({
       where: { id: courseId, category },
     });
+    return CourseDto.plainToInstance(course);
   }
 
-  async getCoursesByCategory(category: CategoryDto) {
-    return this.courseRepository.find({
+  async getCoursesByCategory(category: CategoryDto): Promise<CourseDto[]> {
+    const courses = await this.courseRepository.find({
       where: { category },
     });
+
+    return CourseDto.plainToInstanceArray(courses);
   }
 
-  async getCourses() {
-    return this.courseRepository.find({
+  async getCourses(): Promise<CourseDto[]> {
+    const courses = await this.courseRepository.find({
       relations: { category: true},
     });
+
+    return CourseDto.plainToInstanceArray(courses)
   }
 }
