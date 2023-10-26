@@ -1,5 +1,4 @@
-import { Entity, Column, OneToMany } from 'typeorm';
-import { EnrollmentEntity } from './enrollment.entity';
+import { Entity, Column, OneToMany } from "typeorm";
 import { CourseEntity } from './course.entity';
 import { BaseEntity } from "../common/mysql/base.entity";
 
@@ -26,10 +25,6 @@ export class UserEntity extends BaseEntity{
   @Column()
   password: string;
 
-  // Specify the instructorOf relationship
-  @OneToMany(() => CourseEntity, (course) => course.instructorId)
+  @OneToMany(() => CourseEntity, (course) => course.instructor)
   instructorOf: CourseEntity[];
-
-  @OneToMany(() => EnrollmentEntity, (enrollment) => enrollment.user)
-  enrollments: EnrollmentEntity[];
 }

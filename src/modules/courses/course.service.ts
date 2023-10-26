@@ -53,7 +53,7 @@ export class CourseService extends BaseService<CourseEntity> {
 
   async getCourses(): Promise<CourseDto[]> {
     const courses = await this.courseRepository.find({
-      relations: { category: true},
+      relations: { category: true, instructor: true},
     });
 
     return CourseDto.plainToInstanceArray(courses)

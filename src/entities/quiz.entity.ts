@@ -4,7 +4,9 @@ import { BaseEntity } from "../common/mysql/base.entity";
 
 @Entity()
 export class QuizEntity extends BaseEntity{
-  @Column()
+  @Column({
+    name: 'quiz_name'
+  })
   quizName: string;
 
   @ManyToOne(() => CourseEntity, (course) => course.quizzes)
@@ -13,6 +15,8 @@ export class QuizEntity extends BaseEntity{
   @Column('text')
   questions: string;
 
-  @Column()
+  @Column({
+    name: 'passing_core'
+  })
   passingScore: number;
 }

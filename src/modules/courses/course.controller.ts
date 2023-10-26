@@ -1,21 +1,42 @@
-import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { CourseService } from './course.service';
 import { CourseDto, CreateCourseDto, editCourseDto } from "../../dto/course.dto";
 import { CategoryService } from "../categories/category.service";
 import { ResponseData } from "../../global/globalClass";
 import { HttpMessage, HttpStatus } from "../../global/globalEnum";
+import { UserService } from "../users/user.service";
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ImageService } from "./image.service";
 
 @Controller('category/:name/course')
 export class CourseController {
   constructor(
     private readonly categoryService: CategoryService,
-    private readonly courseService: CourseService
+    private readonly courseService: CourseService,
+    private readonly userService: UserService,
+    private readonly imageService: ImageService,
   ) {}
 
   @Post()
-  async createCourse(@Param('name') categoryName: string, @Body() course: CreateCourseDto): Promise<ResponseData<CourseDto>> {
+  @UseInterceptors(FileInterceptor('file'))
+  async createCourse(@Param('name') categoryName: string,
+                     @Body() course: CreateCourseDto,
+                     @UploadedFile() file
+  ): Promise<ResponseData<CourseDto>> {
     const category = await this.categoryService.findCategoryByName(categoryName);
-    const newCourse = await this.courseService.createCourse(category, course)
+
+
+    if(!course.instructor) {
+      course.instructor = await this.userService.getById('3080e927-063b-4d11-a858-ebcca9b755d2');
+    }
+
+    if (!course.image) {
+      const recordId = await this.imageService.uploadDataToKintone(course.courseName ,file);
+      course.image = await this.imageService.getFileKey(recordId);
+    }
+
+    const newCourse = await this.courseService.createCourse(category, course);
+
     return new ResponseData<CourseDto>(
       newCourse,
       HttpStatus.SUCCESS,
@@ -72,7 +93,17 @@ export class CourseController {
   }
 
   @Put(':id')
-  async updateCourse(@Param('id') id: string, @Body() courseDto: editCourseDto): Promise<ResponseData<string>> {
+  async updateCourse(
+    @Param('id') id: string,
+    @Body() courseDto: editCourseDto,
+    @UploadedFile() file
+  ): Promise<ResponseData<string>> {
+
+    if (file) {
+      const recordId = await this.imageService.uploadDataToKintone(courseDto.courseName ,file);
+      courseDto.image = await this.imageService.getFileKey(recordId);
+    }
+
     const status = await this.courseService.update(id, courseDto);
     return new ResponseData<string>(
       status,

@@ -1,10 +1,7 @@
-// course.dto.ts
 import { IsString, IsArray, ValidateNested, IsOptional } from "class-validator";
 import { Expose, Type } from 'class-transformer'; // Import the Expose decorator
 import { UserDto } from './user.dto';
 import { CategoryDto } from './category.dto';
-import { EnrollmentDto } from './enrollment.dto';
-import { ModuleDto } from './module.dto';
 import { QuizDto } from './quiz.dto';
 import { BaseDto } from "../common/base.dto";
 
@@ -18,9 +15,16 @@ export class CourseDto extends BaseDto {
   description: string;
 
   @Expose() // Expose this property
+  @IsString()
+  content: string;
+
+  @Expose()
+  image: string;
+
+  @Expose() // Expose this property
   @ValidateNested()
   @Type(() => UserDto)
-  instructorId: UserDto;
+  instructor: UserDto;
 
   @Expose() // Expose this property
   @ValidateNested()
@@ -29,15 +33,9 @@ export class CourseDto extends BaseDto {
 
   @Expose() // Expose this property
   @ValidateNested()
-  @Type(() => EnrollmentDto)
+  @Type(() => UserDto)
   @IsArray()
-  enrollments: EnrollmentDto[];
-
-  @Expose() // Expose this property
-  @ValidateNested()
-  @Type(() => ModuleDto)
-  @IsArray()
-  modules: ModuleDto[];
+  enrollments: UserDto[];
 
   @Expose() // Expose this property
   @ValidateNested()
@@ -47,16 +45,25 @@ export class CourseDto extends BaseDto {
 }
 
 export class CreateCourseDto extends BaseDto {
+  @Expose() // Expose this property
   @IsString()
   courseName: string;
 
+  @Expose() // Expose this property
   @IsString()
   description: string;
+
+  @Expose() // Expose this property
+  @IsString()
+  content: string;
+
+  @Expose()
+  image: any;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => UserDto)
-  instructorId: UserDto;
+  instructor: UserDto;
 
   @ValidateNested()
   @Type(() => CategoryDto)
@@ -64,16 +71,9 @@ export class CreateCourseDto extends BaseDto {
 
   @IsOptional()
   @ValidateNested()
-  @Type(() => EnrollmentDto)
+  @Type(() => UserDto)
   @IsArray()
-  enrollments: EnrollmentDto[];
-
-  @IsOptional()
-  @Expose()
-  @ValidateNested()
-  @Type(() => ModuleDto)
-  @IsArray()
-  modules: ModuleDto[];
+  enrollments: UserDto[];
 
   @IsOptional()
   @Expose()
@@ -96,9 +96,18 @@ export class editCourseDto extends BaseDto {
 
   @IsOptional()
   @Expose() // Expose this property
+  @IsString()
+  content: string;
+
+  @IsOptional()
+  @Expose()
+  image: string;
+
+  @IsOptional()
+  @Expose() // Expose this property
   @ValidateNested()
   @Type(() => UserDto)
-  instructorId: UserDto;
+  instructor: UserDto;
 
   @IsOptional()
   @Expose() // Expose this property
@@ -109,16 +118,9 @@ export class editCourseDto extends BaseDto {
   @IsOptional()
   @Expose() // Expose this property
   @ValidateNested()
-  @Type(() => EnrollmentDto)
+  @Type(() => UserDto)
   @IsArray()
-  enrollments: EnrollmentDto[];
-
-  @IsOptional()
-  @Expose() // Expose this property
-  @ValidateNested()
-  @Type(() => ModuleDto)
-  @IsArray()
-  modules: ModuleDto[];
+  enrollments: UserDto[];
 
   @IsOptional()
   @Expose() // Expose this property

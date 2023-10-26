@@ -1,10 +1,9 @@
-import { Entity, Column, ManyToOne, OneToMany } from 'typeorm';
+import { Entity, Column, ManyToOne, OneToMany, ManyToMany } from "typeorm";
 import { UserEntity } from './user.entity';
-import { EnrollmentEntity } from './enrollment.entity';
-import { ModuleEntity } from './module.entity';
 import { QuizEntity } from './quiz.entity';
 import { CategoryEntity } from './category.entity';
 import { BaseEntity } from "../common/mysql/base.entity";
+import { JoinTable } from "typeorm";
 
 @Entity()
 export class CourseEntity extends BaseEntity{
@@ -16,17 +15,21 @@ export class CourseEntity extends BaseEntity{
   @Column('text')
   description: string;
 
+  @Column()
+  image: string;
+
+  @Column('text')
+  content: string;
+
   @ManyToOne(() => UserEntity, (user) => user.instructorOf)
-  instructorId: UserEntity;
+  instructor: UserEntity;
 
   @ManyToOne(() => CategoryEntity, (category) => category.courses)
   category: CategoryEntity;
 
-  @OneToMany(() => EnrollmentEntity, (enrollment) => enrollment.course)
-  enrollments: EnrollmentEntity[];
-
-  @OneToMany(() => ModuleEntity, (module) => module.course)
-  modules: ModuleEntity[];
+  @ManyToMany(() => UserEntity)
+  @JoinTable()
+  enrollments: UserEntity[]
 
   @OneToMany(() => QuizEntity, (quiz) => quiz.course)
   quizzes: QuizEntity[];

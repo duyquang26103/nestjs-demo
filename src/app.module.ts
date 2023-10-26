@@ -7,16 +7,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CategoryModule } from "./modules/categories/category.module";
 import { UserEntity } from './entities/user.entity';
 import { CourseEntity } from './entities/course.entity';
-import { EnrollmentEntity } from './entities/enrollment.entity';
 import { CategoryEntity } from './entities/category.entity';
-import { ModuleEntity } from './entities/module.entity';
 import { QuizEntity } from './entities/quiz.entity';
 
 @Module({
   imports: [
-    CourseModule,
-    UsersModule,
-    CategoryModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -27,14 +22,15 @@ import { QuizEntity } from './entities/quiz.entity';
       entities: [
         UserEntity,
         CourseEntity,
-        EnrollmentEntity,
         CategoryEntity,
-        ModuleEntity,
         QuizEntity,
       ],
       logging: 'all',
       synchronize: true,
     }),
+    CourseModule,
+    UsersModule,
+    CategoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],

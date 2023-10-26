@@ -9,8 +9,9 @@ import { HttpMessage, HttpStatus } from "./global/globalEnum";
 export class AppController {
   constructor(
     private readonly appService: AppService,
-    private readonly courseService: CourseService
-  ) {}
+    private readonly courseService: CourseService,
+  ) {
+  }
 
   @Get('/courses')
   async getCourses(): Promise<ResponseData<CourseDto[]>> {
